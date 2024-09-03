@@ -1,6 +1,5 @@
 // Acceder al plugin SQL a través de la variable global
 const Database = window.__TAURI_PLUGIN_SQL__;
-const { isPermissionGranted, requestPermission, sendNotification } = window.__TAURI__.notification;
 
 // Función para formatear fechas en formato dd/mm/yyyy
 function formatearFecha(fecha) {
@@ -428,7 +427,7 @@ async function verificarNotificaciones() {
               sendNotification({
                   title: 'Recordatorio de Próximo Contacto',
                   body: mensaje,
-                  icon: 'path/to/icon.png', // Opcional: ícono personalizado
+                  icon: '../src-tauri/icons/32x32.png', // Opcional: ícono personalizado
               });
           });
       }
