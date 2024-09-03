@@ -1,6 +1,6 @@
 {
   "productName": "gestion",
-  "version": "1.0.0",
+  "version": "0.1.9",
   "identifier": "com.afiliados-v2.app",
   "build": {
     "frontendDist": "../src"
