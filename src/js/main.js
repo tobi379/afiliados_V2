@@ -1,5 +1,7 @@
 // Acceder al plugin SQL a través de la variable global
 const Database = window.__TAURI_PLUGIN_SQL__;
+import { check } from '@tauri-apps/plugin-updater';
+import { relaunch } from '@tauri-apps/plugin-process';
 
 // Función para formatear fechas en formato dd/mm/yyyy
 function formatearFecha(fecha) {
@@ -490,6 +492,42 @@ async function verificarProximosContactos() {
   }
 }
 
+// Función para verificar y aplicar actualizaciones
+async function verificarYAplicarActualizacion() {
+  try {
+    const update = await check();
+
+    if (update) {
+      console.log(`Encontrada actualización ${update.version} disponible desde ${update.date} con notas: ${update.body}`);
+      let downloaded = 0;
+      let contentLength = 0;
+
+      await update.downloadAndInstall((event) => {
+        switch (event.event) {
+          case 'Started':
+            contentLength = event.data.contentLength;
+            console.log(`Iniciada la descarga de ${event.data.contentLength} bytes`);
+            break;
+          case 'Progress':
+            downloaded += event.data.chunkLength;
+            console.log(`Descargados ${downloaded} de ${contentLength}`);
+            break;
+          case 'Finished':
+            console.log('Descarga finalizada');
+            break;
+        }
+      });
+
+      console.log('Actualización instalada');
+      await relaunch(); // Reinicia la aplicación para aplicar la actualización
+    } else {
+      console.log('No hay actualizaciones disponibles.');
+    }
+  } catch (error) {
+    console.error('Error al verificar actualizaciones:', error);
+  }
+}
+
 // Llamar a la función para verificar contactos cuando se carga la página
 document.addEventListener('DOMContentLoaded', verificarProximosContactos);
 
@@ -498,5 +536,7 @@ document.addEventListener('DOMContentLoaded', verificarProximosContactos);
 document.addEventListener('DOMContentLoaded', async () => {
   await cargarAfiliados();
   await verificarNotificaciones();
+  await verificarYAplicarActualizacion(); // Aquí se llama a la verificación de actualizaciones
+  await verificarProximosContactos();
 });
 
