@@ -21,11 +21,21 @@
   "plugins": {
     "sql": {
       "preload": ["sqlite:afiliados.db"]
+    },
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDhENTQxOUM4MDYxMDlGRkQKUldUOW54QUd5QmxVamNQV1lCdmI3MXNHendraUpqNEVqNDh3bjhvVjd3NDhKK05pZ3JBUmIyM2kK",
+      "windows": {
+        "installMode": "passive"
+      },
+      "endpoints": [
+        "https://github.com/tobi379/afiliados_V2/releases/latest/download/latest.json"
+      ]
     }
   },
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
