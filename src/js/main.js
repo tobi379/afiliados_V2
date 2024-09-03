@@ -1,7 +1,8 @@
 // Acceder al plugin SQL a través de la variable global
 const Database = window.__TAURI_PLUGIN_SQL__;
-import { check } from '@tauri-apps/plugin-updater';
-import { relaunch } from '@tauri-apps/plugin-process';
+
+// import { check } from '@tauri-apps/plugin-updater';
+// import { relaunch } from '@tauri-apps/plugin-process';
 
 // Función para formatear fechas en formato dd/mm/yyyy
 function formatearFecha(fecha) {
@@ -138,7 +139,7 @@ async function actualizarAfiliado(paciente) {
     );
 
     cargarAfiliados(); // Actualizar la lista de afiliados
-    alert('Afiliado actualizado correctamente');
+    // alert('Afiliado actualizado correctamente');
   } catch (error) {
     console.error('Error al actualizar afiliado:', error);
     alert('Error al actualizar el afiliado');
@@ -387,56 +388,56 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Función para cargar los afiliados y verificar fechas para notificaciones
-async function verificarNotificaciones() {
-  try {
-      const db = await cargarBaseDeDatos();
-      const hoy = new Date();
-      const dosDiasDespues = new Date(hoy);
-      const unDiaDespues = new Date(hoy);
-      dosDiasDespues.setDate(hoy.getDate() + 2);
-      unDiaDespues.setDate(hoy.getDate() + 1);
+// async function verificarNotificaciones() {
+//   try {
+//       const db = await cargarBaseDeDatos();
+//       const hoy = new Date();
+//       const dosDiasDespues = new Date(hoy);
+//       const unDiaDespues = new Date(hoy);
+//       dosDiasDespues.setDate(hoy.getDate() + 2);
+//       unDiaDespues.setDate(hoy.getDate() + 1);
 
-      const hoyISO = hoy.toISOString().split('T')[0];
-      const dosDiasDespuesISO = dosDiasDespues.toISOString().split('T')[0];
-      const unDiaDespuesISO = unDiaDespues.toISOString().split('T')[0];
+//       const hoyISO = hoy.toISOString().split('T')[0];
+//       const dosDiasDespuesISO = dosDiasDespues.toISOString().split('T')[0];
+//       const unDiaDespuesISO = unDiaDespues.toISOString().split('T')[0];
 
-      const contactosCercanos = await db.select(`
-          SELECT afiliados.nombre, afiliados.apellido, fichas.proximo_contacto
-          FROM fichas
-          JOIN afiliados ON fichas.paciente_id = afiliados.id
-          WHERE fichas.proximo_contacto IN (?, ?, ?)
-          AND fichas.contactado IS NULL
-      `, [hoyISO, unDiaDespuesISO, dosDiasDespuesISO]);
+//       const contactosCercanos = await db.select(`
+//           SELECT afiliados.nombre, afiliados.apellido, fichas.proximo_contacto
+//           FROM fichas
+//           JOIN afiliados ON fichas.paciente_id = afiliados.id
+//           WHERE fichas.proximo_contacto IN (?, ?, ?)
+//           AND fichas.contactado IS NULL
+//       `, [hoyISO, unDiaDespuesISO, dosDiasDespuesISO]);
 
-      // Verificar permisos y enviar notificaciones si corresponde
-      let permissionGranted;
-      try {
-          permissionGranted = await isPermissionGranted();
-      } catch (error) {
-          console.warn('No se pudo verificar el permiso de notificaciones:', error);
-      }
+//       // Verificar permisos y enviar notificaciones si corresponde
+//       let permissionGranted;
+//       try {
+//           permissionGranted = await isPermissionGranted();
+//       } catch (error) {
+//           console.warn('No se pudo verificar el permiso de notificaciones:', error);
+//       }
 
-      if (!permissionGranted) {
-          const permission = await requestPermission();
-          permissionGranted = permission === 'granted';
-      }
+//       if (!permissionGranted) {
+//           const permission = await requestPermission();
+//           permissionGranted = permission === 'granted';
+//       }
 
-      if (permissionGranted) {
-          contactosCercanos.forEach(contacto => {
-              const nombreCompleto = `${contacto.apellido}, ${contacto.nombre}`;
-              const mensaje = `Recuerda contactar a ${nombreCompleto} el ${formatearFecha(contacto.proximo_contacto)}`;
+//       if (permissionGranted) {
+//           contactosCercanos.forEach(contacto => {
+//               const nombreCompleto = `${contacto.apellido}, ${contacto.nombre}`;
+//               const mensaje = `Recuerda contactar a ${nombreCompleto} el ${formatearFecha(contacto.proximo_contacto)}`;
 
-              sendNotification({
-                  title: 'Recordatorio de Próximo Contacto',
-                  body: mensaje,
-                  icon: '../src-tauri/icons/32x32.png', // Opcional: ícono personalizado
-              });
-          });
-      }
-  } catch (error) {
-      console.error('Error al verificar notificaciones:', error);
-  }
-}
+//               sendNotification({
+//                   title: 'Recordatorio de Próximo Contacto',
+//                   body: mensaje,
+//                   icon: '../src-tauri/icons/32x32.png', // Opcional: ícono personalizado
+//               });
+//           });
+//       }
+//   } catch (error) {
+//       console.error('Error al verificar notificaciones:', error);
+//   }
+// }
 
 // Función para crear y mostrar notificaciones
 function mostrarNotificacion(mensaje, tiempo = 5000) {
@@ -493,40 +494,40 @@ async function verificarProximosContactos() {
 }
 
 // Función para verificar y aplicar actualizaciones
-async function verificarYAplicarActualizacion() {
-  try {
-    const update = await check();
+// async function verificarYAplicarActualizacion() {
+//   try {
+//     const update = await check();
 
-    if (update) {
-      console.log(`Encontrada actualización ${update.version} disponible desde ${update.date} con notas: ${update.body}`);
-      let downloaded = 0;
-      let contentLength = 0;
+//     if (update) {
+//       console.log(`Encontrada actualización ${update.version} disponible desde ${update.date} con notas: ${update.body}`);
+//       let downloaded = 0;
+//       let contentLength = 0;
 
-      await update.downloadAndInstall((event) => {
-        switch (event.event) {
-          case 'Started':
-            contentLength = event.data.contentLength;
-            console.log(`Iniciada la descarga de ${event.data.contentLength} bytes`);
-            break;
-          case 'Progress':
-            downloaded += event.data.chunkLength;
-            console.log(`Descargados ${downloaded} de ${contentLength}`);
-            break;
-          case 'Finished':
-            console.log('Descarga finalizada');
-            break;
-        }
-      });
+//       await update.downloadAndInstall((event) => {
+//         switch (event.event) {
+//           case 'Started':
+//             contentLength = event.data.contentLength;
+//             console.log(`Iniciada la descarga de ${event.data.contentLength} bytes`);
+//             break;
+//           case 'Progress':
+//             downloaded += event.data.chunkLength;
+//             console.log(`Descargados ${downloaded} de ${contentLength}`);
+//             break;
+//           case 'Finished':
+//             console.log('Descarga finalizada');
+//             break;
+//         }
+//       });
 
-      console.log('Actualización instalada');
-      await relaunch(); // Reinicia la aplicación para aplicar la actualización
-    } else {
-      console.log('No hay actualizaciones disponibles.');
-    }
-  } catch (error) {
-    console.error('Error al verificar actualizaciones:', error);
-  }
-}
+//       console.log('Actualización instalada');
+//       await relaunch(); // Reinicia la aplicación para aplicar la actualización
+//     } else {
+//       console.log('No hay actualizaciones disponibles.');
+//     }
+//   } catch (error) {
+//     console.error('Error al verificar actualizaciones:', error);
+//   }
+// }
 
 // Llamar a la función para verificar contactos cuando se carga la página
 document.addEventListener('DOMContentLoaded', verificarProximosContactos);
@@ -535,8 +536,8 @@ document.addEventListener('DOMContentLoaded', verificarProximosContactos);
 // Cargar los afiliados y verificar notificaciones al cargar la página
 document.addEventListener('DOMContentLoaded', async () => {
   await cargarAfiliados();
-  await verificarNotificaciones();
-  await verificarYAplicarActualizacion(); // Aquí se llama a la verificación de actualizaciones
+  // await verificarNotificaciones();
+  // await verificarYAplicarActualizacion(); // Aquí se llama a la verificación de actualizaciones
   await verificarProximosContactos();
 });
 

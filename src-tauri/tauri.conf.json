@@ -1,6 +1,6 @@
 {
   "productName": "afiliados-v2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "identifier": "com.afiliados-v2.app",
   "build": {
     "frontendDist": "../src"
@@ -9,7 +9,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "afiliados-v2",
+        "title": "Gestion afiliados",
         "width": 800,
         "height": 600
       }
