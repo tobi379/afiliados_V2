@@ -298,8 +298,6 @@ async function agregarFicha(ficha) {
   }
 }
 
-
-
 // Manejar el envío del formulario de fichas para guardar una nueva ficha
 document.getElementById('ficha-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -339,7 +337,41 @@ document.getElementById('ficha-form').addEventListener('submit', async (e) => {
   document.getElementById('nuevaFicha').textContent = 'Nueva ficha';
 });
 
+// Función para obtener los parámetros de la URL
+function obtenerParametrosURL() {
+  const params = new URLSearchParams(window.location.search);
+  const pacienteId = params.get('paciente_id');
+  const ultimoContacto = params.get('ultimo_contacto');
+  return { pacienteId, ultimoContacto };
+}
 
+// Cargar los afiliados al cargar la página
+document.addEventListener('DOMContentLoaded', async () => {
+  await cargarAfiliados();
+
+  const { pacienteId, ultimoContacto } = obtenerParametrosURL();
+
+  if (pacienteId) {
+      document.getElementById('patientSelect').value = pacienteId;
+      await cargarDatosAfiliado(pacienteId);
+
+      // Si se especifica un último contacto, abrir el formulario de fichas y completar el campo
+      if (ultimoContacto) {
+          const fichaForm = document.getElementById('ficha-form');
+          fichaForm.style.display = 'block';
+          document.getElementById('nuevaFicha').textContent = 'Ocultar ficha';
+
+          // Rellenar el campo "Último contacto realizado" con la fecha de "Próximo contacto planificado"
+          document.querySelector('input[name="ultimoContacto"]').value = ultimoContacto;
+      }
+
+      // Actualizar los botones según el estado de afiliado seleccionado
+      document.getElementById('guardarPaciente').textContent = 'Actualizar afiliado';
+      document.getElementById('eliminarPaciente').disabled = false;
+      document.getElementById('nuevaFicha').disabled = false;
+      document.getElementById('historialFichasButton').disabled = false;
+  }
+});
 
 // Cargar los afiliados al cargar la página
 cargarAfiliados();

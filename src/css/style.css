@@ -320,3 +320,22 @@ html, body {
   .eliminar-ficha-btn:hover, .editar-ficha-btn:hover {
     background-color: #c82333;
   }
+
+  .atrasada {
+    background-color: #ffffcc; /* Fondo amarillo claro para indicar atraso */
+    color: #666600; /* Texto oscuro */
+}
+
+.editar-fecha {
+    background-color: #f0ad4e;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.editar-fecha:hover {
+    background-color: #ec971f;
+}
