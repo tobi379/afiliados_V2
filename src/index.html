@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Paciente</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="main-container">
+    <div class="header">
+        <h2>Consulta ficha del afiliado: Introduzca N° Historia / Afiliado / Código....</h2>
+        <div class="patient-number">
+            <select id="patientSelect">
+                <option value="new">Nuevo afiliado</option>
+            </select>
+        </div>
+    </div>
+    <div class="bg-color">
+        <div class="buttons"></div>
+        <form id="pacienteForm" autocomplete="off">
+            <input type="hidden" name="id">
+            <div class="form-row">
+                <label>Apellido: <input type="text" name="apellido" required autocomplete="new-password"></label>
+                <label>Nombre: <input type="text" name="nombre" required autocomplete="new-password"></label>
+            </div>
+            <div class="form-row">
+                <label>Dirección: <input type="text" name="direccion" required autocomplete="new-password"></label>
+                <label>C. Postal: <input type="text" name="codigo_postal" required autocomplete="new-password"></label>
+            </div>
+            <div class="form-row">
+                <label>Localidad: <input type="text" name="localidad" required autocomplete="new-password"></label>
+                <label>Provincia: <input type="text" name="provincia" required autocomplete="new-password"></label>
+            </div>
+            <div class="form-row">
+                <label>F. nacimiento: <input type="date" name="fecha_nacimiento" required autocomplete="new-password"></label>
+                <label>Sexo:
+                    <select name="sexo" required>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-row">
+                <label>Obra social y num afiliado: <input type="text" name="obra_social" required autocomplete="new-password"></label>
+                <label>Teléfono: <input type="tel" name="telefono" required autocomplete="new-password"></label>
+            </div>
+            <div class="form-row">
+                <label>Grupo sanguíneo:
+                    <select name="grupo_sanguineo" required>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </label>
+                <label>Estado civil:
+                    <select name="estado_civil" required>
+                        <option value="Soltero/a">Soltero/a</option>
+                        <option value="Casado/a">Casado/a</option>
+                        <option value="Unión libre o unión de hecho">Unión libre o unión de hecho</option>
+                        <option value="Separado/a">Separado/a</option>
+                        <option value="Divorciado/a">Divorciado/a</option>
+                        <option value="Viudo/a">Viudo/a</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-row">
+                <label>Pareja: <input type="text" name="pareja" autocomplete="new-password"></label>
+                <label>Hijo 1: <input type="text" name="hijo1" autocomplete="new-password"></label>
+            </div>
+            <div class="form-row">
+                <label>Hijo 2: <input type="text" name="hijo2" autocomplete="new-password"></label>
+                <label>Hijo 3: <input type="text" name="hijo3" autocomplete="new-password"></label>
+            </div>
+            <div class="form-row">
+                <label>Contacto en caso de emergencia Nombre, numero y vinculo: <input type="text" name="contacto_emergencia" required autocomplete="new-password"></label>
+            </div>
+            <div class="action-buttons">
+                <button type="submit" id="guardarPaciente">Guardar afiliado</button>
+                <button id="eliminarPaciente" disabled>Eliminar afiliado</button>
+                <button type="button" id="nuevaFicha">Nueva ficha</button>
+                <button id="historialFichasButton">Historial fichas</button>
+            </div>
+        </form>
+
+        <form id="ficha-form" style="display: none;" autocomplete="new-password">
+            <div class="additional-section" id="additionalSection">
+                <div class="additional-contact">
+                    <div class="left-label">
+                        <label>Ultimo contacto realizado: <input type="date" name="ultimoContacto" autocomplete="new-password"></label>
+                    </div>
+                    <div class="right-label">
+                        <label>Fecha de ultimo evento: <input type="date" name="fechaUltimoEvento" autocomplete="new-password"></label>
+                    </div>
+                </div>
+                <div class="center-label">
+                    <label>Proximo contacto planificado: <input type="date" name="proximoContacto" autocomplete="new-password"></label>
+                </div>
+                <div class="additional-info">
+                    <label>Antecedentes declarados: <input type="text" name="antecedentes" autocomplete="new-password"></label>
+                    <label>Hecho: <input type="text" name="hecho" autocomplete="new-password"></label>
+                    <label>Acción tomada por hospitalia: <input type="text" name="accionHospital" autocomplete="new-password"></label>
+                    <label>Otros datos de interés: <input type="text" name="otrosDatos" autocomplete="new-password"></label>
+                    <label>Notas / Observaciones: <input type="text" name="notas" autocomplete="new-password"></label>
+                    <label>Detalle: <input type="text" name="detalle" autocomplete="new-password"></label>
+                </div>
+                <div class="action-buttons">
+                    <button type="submit">Guardar ficha</button>
+                    <!-- <button type="button" id="deleteButton" disabled>Eliminar ficha</button> -->
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <div class="notification-container"></div>
+
+
+  <footer class="main-footer">
+    <button type="button" onclick="location.href='pendientes.html';">Pendientes</button>
+    <button type="button" onclick="location.href='database.html';">Base de Datos</button>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

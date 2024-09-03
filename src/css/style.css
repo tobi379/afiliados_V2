@@ -1,0 +1,322 @@
+html, body {
+    height: 100%; /* Asegúrate de que el html y body ocupen al menos el alto completo de la ventana del navegador */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Hace que los elementos se ordenen verticalmente */
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* BUTTONS */
+  button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* INDEX.HTML */
+  .main-container {
+    flex: 1;
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */
+    /* overflow-x: hidden; /* Evitar el desplazamiento horizontal */
+  }
+  
+  .db-container {
+    flex: 1;
+    /* width: 90%; */
+    margin: auto;
+    padding: 20px;
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */
+    /* overflow-x: hidden; /* Evitar el desplazamiento horizontal */
+  }
+  
+  .header {
+    /* padding: 10px; */
+    /* margin-bottom: 20px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header h2 {
+    background-color: rgb(221, 217, 196);
+    font-size: 20px;
+    padding: 10px;
+    margin: 0;
+    flex-grow: 1; /* Permite que el título ocupe todo el espacio posible, empujando el número a la derecha */
+  }
+  
+  .patient-number {
+    padding: 0 20px; /* Espaciado opcional para el número */
+    font-size: 1.2em; /* Tamaño opcional para el número */
+    font-weight: bold; /* Opcional para hacer el número más visible */
+  }
+  
+  .bg-color {
+    padding: 20px;
+    background-color: rgb(197, 217, 241);
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .form-row label {
+    flex-basis: 48%;
+  }
+  
+  input[type="text"], input[type="tel"], input[type="date"], textarea, select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  .additional-contact {
+    display: flex;
+    justify-content: space-between; /* Esto alinea una etiqueta a la izquierda y otra a la derecha */
+    margin-top: 10px; /* Espacio después de los botones de acción */
+  }
+  
+  .left-label, .right-label {
+    flex: 1; /* Esto hace que ambos tomen el mismo espacio pero se separen */
+    padding: 0 15px; /* Añade un poco de padding para asegurar espacio entre los labels */
+  }
+  
+  .center-label {
+    text-align: center; /* Esto centra la etiqueta */
+    margin-top: 10px; /* Espacio después de los botones de acción */
+  }
+  
+  .center-label {
+    text-align: center; /* Esto centra la etiqueta */
+    margin-top: 10px; /* Espacio después de los botones de acción */
+    width: 50%; /* Restringe el ancho del label 3 para que no ocupe todo el ancho */
+    margin-left: auto; /* Esto centra el div en el contenedor */
+    margin-right: auto; /* Esto centra el div en el contenedor */
+  }
+  
+  .additional-info {
+    margin-top: 20px;
+  }
+  
+  .additional-info input {
+    margin-bottom: 10px;
+  }
+  
+  .additional-section {
+    transition: all 0.3s ease;
+  }
+  
+  .main-footer {
+    /* text-align: center; */
+    padding: 20px;
+    background-color: #fff;
+    width: 100%;
+    /* box-shadow: 0px -2px 5px rgba(0,0,0,0.1); */
+  }
+  
+  footer button {
+    margin: 0 10px;
+  }
+  
+  .main-container .buttons {
+    margin: 0 0 20px 0px;
+  }
+  
+  .main-container button {
+    margin: 0 10px; /* Espacio entre botones */
+    
+  }
+  
+  .main-container .action-buttons {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    margin: 10px 0;
+  }
+  
+  /* PENDIENTES.HTML */
+  .pendientes-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    /* height: 100vh; /* Ajusta la altura del contenedor */
+  }
+  
+  .pendientes-table {
+    border-collapse: collapse;
+    width: 80%; /* Ajusta el ancho según sea necesario */
+    margin: 0 auto;
+  }
+  
+  .pendientes-table th,
+  .pendientes-table td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .pendientes-table th {
+    background-color: rgb(255, 204, 153);
+  }
+  
+  .pendientes-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .pendientes-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .pendientes-table .contact-checkbox {
+    margin-left: 10px;
+  }
+  
+  .pendientes-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding: 20px;
+    background-color: #f1f1f1; /* Optional: background color for footer */
+    width: 100%; /* Ensures the footer takes full width */
+  }
+  
+  /* DATABASE.HTML */
+  .database-container {
+    flex: 1; /* Hace que el contenedor de contenido crezca para ocupar el espacio disponible */
+    /* padding: 20px; */
+    /* width: 90%; */
+    /* margin: auto; */
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */
+  }
+  
+  .database-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .database-table th, td {
+    border: 1px solid #ddd; /* Añade bordes a las celdas */
+    text-align: left;
+    padding: 10px 20px 10px 20px;
+  }
+  
+  .database-table th {
+    background-color: rgb(255, 204, 153); /* Color de fondo para los encabezados de columna */
+  }
+  
+  .database-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Añade un color de fondo alternativo para las filas */
+  }
+  
+  .database-table tbody tr:hover {
+    background-color: #f1f1f1; /* Cambio de color al pasar el ratón sobre las filas */
+  }
+  
+  /* .notifications-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .notification {
+    background-color: #ff9800;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    animation: fadein 0.5s, fadeout 0.5s 4.5s;
+  }
+  
+  @keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  
+  @keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+  } */
+  
+  .notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .notification {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    opacity: 0.9;
+    position: relative;
+  }
+  
+  .notification:hover {
+    opacity: 1;
+  }
+  
+  .notification .close-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .notification .close-button:hover {
+    color: #ccc;
+  }
+  
+  
+  .paciente-apellido {
+    font-weight: bold; /* Resalta el apellido */
+    color: #007bff; /* Color azul para indicar que es un enlace */
+    cursor: pointer; /* Cambia el cursor a pointer */
+    text-decoration: underline; /* Subraya para parecer más un enlace */
+  }
+  
+  .paciente-apellido:hover {
+    color: #0056b3; /* Cambia el color cuando se pasa el cursor por encima */
+  }
+  
+  .eliminar-ficha-btn, .editar-ficha-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .eliminar-ficha-btn:hover, .editar-ficha-btn:hover {
+    background-color: #c82333;
+  }

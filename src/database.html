@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="db-container">
+        <div class="database-container">
+            <table class="database-table">
+                <thead>
+                    <tr>
+                    <th>N° inscripcion</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>C. Postal</th>
+                    <th>Localidad</th>
+                    <th>Provincia</th>
+                    <th>F. Nacimiento</th>
+                    <th>Sexo</th>
+                    <th>Obra Social y num afiliado</th>
+                    <th>Teléfono</th>
+                    <th>Grupo sanguíneo</th>
+                    <th>Estado civil</th>
+                    <th>Pareja</th>
+                    <th>Hijo 1</th>
+                    <th>Hijo 2</th>
+                    <th>Hijo 3</th>
+                    <th>Contacto en caso de emergencia Nombre, numero y vinculo</th>
+                    </tr>
+                </thead>
+                <tbody id="patients-body">
+                    <!-- Filas serán insertadas aquí mediante JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <button type="button" onclick="location.href='index.html';">Volver a Inicio</button>
+        <button id="verTodosBtn" style="display: none;">Ver todos los afiliados</button>
+    </footer>
+
+    <script src="js/database.js"></script>
+</body>
+</html>
