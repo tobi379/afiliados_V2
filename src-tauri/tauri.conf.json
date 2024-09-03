@@ -1,6 +1,6 @@
 {
   "productName": "afiliados-v2",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "identifier": "com.afiliados-v2.app",
   "build": {
     "frontendDist": "../src"
