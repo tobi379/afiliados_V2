@@ -1,5 +1,13 @@
 // Acceder al plugin SQL a través de la variable global
 const Database = window.__TAURI_PLUGIN_SQL__;
+const { isPermissionGranted, requestPermission, sendNotification } = window.__TAURI__.notification;
+
+// Función para formatear fechas en formato dd/mm/yyyy
+function formatearFecha(fecha) {
+  if (!fecha) return '';
+  const partes = fecha.split('-');
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
 
 // Cargar todos los afiliados en el select al inicio
 async function cargarAfiliados() {
@@ -365,6 +373,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           document.querySelector('input[name="ultimoContacto"]').value = ultimoContacto;
       }
 
+      // Asegúrate de que el afiliado esté seleccionado en el menú
+      const select = document.getElementById('patientSelect');
+      select.value = pacienteId; // Selecciona el afiliado en el menú
+
       // Actualizar los botones según el estado de afiliado seleccionado
       document.getElementById('guardarPaciente').textContent = 'Actualizar afiliado';
       document.getElementById('eliminarPaciente').disabled = false;
@@ -373,5 +385,119 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// Cargar los afiliados al cargar la página
-cargarAfiliados();
+// Función para cargar los afiliados y verificar fechas para notificaciones
+async function verificarNotificaciones() {
+  try {
+      const db = await cargarBaseDeDatos();
+      const hoy = new Date();
+      const dosDiasDespues = new Date(hoy);
+      const unDiaDespues = new Date(hoy);
+      dosDiasDespues.setDate(hoy.getDate() + 2);
+      unDiaDespues.setDate(hoy.getDate() + 1);
+
+      const hoyISO = hoy.toISOString().split('T')[0];
+      const dosDiasDespuesISO = dosDiasDespues.toISOString().split('T')[0];
+      const unDiaDespuesISO = unDiaDespues.toISOString().split('T')[0];
+
+      const contactosCercanos = await db.select(`
+          SELECT afiliados.nombre, afiliados.apellido, fichas.proximo_contacto
+          FROM fichas
+          JOIN afiliados ON fichas.paciente_id = afiliados.id
+          WHERE fichas.proximo_contacto IN (?, ?, ?)
+          AND fichas.contactado IS NULL
+      `, [hoyISO, unDiaDespuesISO, dosDiasDespuesISO]);
+
+      // Verificar permisos y enviar notificaciones si corresponde
+      let permissionGranted;
+      try {
+          permissionGranted = await isPermissionGranted();
+      } catch (error) {
+          console.warn('No se pudo verificar el permiso de notificaciones:', error);
+      }
+
+      if (!permissionGranted) {
+          const permission = await requestPermission();
+          permissionGranted = permission === 'granted';
+      }
+
+      if (permissionGranted) {
+          contactosCercanos.forEach(contacto => {
+              const nombreCompleto = `${contacto.apellido}, ${contacto.nombre}`;
+              const mensaje = `Recuerda contactar a ${nombreCompleto} el ${formatearFecha(contacto.proximo_contacto)}`;
+
+              sendNotification({
+                  title: 'Recordatorio de Próximo Contacto',
+                  body: mensaje,
+                  icon: 'path/to/icon.png', // Opcional: ícono personalizado
+              });
+          });
+      }
+  } catch (error) {
+      console.error('Error al verificar notificaciones:', error);
+  }
+}
+
+// Función para crear y mostrar notificaciones
+function mostrarNotificacion(mensaje, tiempo = 5000) {
+  const notificationContainer = document.querySelector('.notification-container');
+
+  // Crear el div de la notificación
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.innerHTML = `
+      ${mensaje}
+      <span class="close-button">&times;</span>
+  `;
+
+  // Añadir el evento para cerrar la notificación
+  notification.querySelector('.close-button').addEventListener('click', () => {
+      notificationContainer.removeChild(notification);
+  });
+
+  // Añadir la notificación al contenedor
+  notificationContainer.appendChild(notification);
+
+  // Quitar la notificación después de un tiempo
+  setTimeout(() => {
+      if (notificationContainer.contains(notification)) {
+          notificationContainer.removeChild(notification);
+      }
+  }, tiempo);
+}
+
+// Función para verificar las fechas próximas de contacto
+async function verificarProximosContactos() {
+  try {
+      const db = await cargarBaseDeDatos();
+      const hoy = new Date().toISOString().split('T')[0];
+
+      // Consulta para obtener las fichas con contacto en los próximos 2 días y que no hayan sido contactadas
+      const fichas = await db.select(`
+          SELECT afiliados.nombre, afiliados.apellido, fichas.proximo_contacto
+          FROM fichas
+          JOIN afiliados ON fichas.paciente_id = afiliados.id
+          WHERE fichas.proximo_contacto >= ? AND fichas.proximo_contacto <= DATE(?, '+2 days')
+          AND fichas.contactado IS NULL
+      `, [hoy, hoy]);
+
+      // Mostrar notificaciones para cada ficha encontrada
+      fichas.forEach(ficha => {
+          const fechaFormateada = formatearFecha(ficha.proximo_contacto);
+          const mensaje = `Recordatorio: Tienes un contacto planificado con ${ficha.nombre} ${ficha.apellido} para el ${fechaFormateada}.`;
+          mostrarNotificacion(mensaje);
+      });
+  } catch (error) {
+      console.error('Error al verificar próximos contactos:', error);
+  }
+}
+
+// Llamar a la función para verificar contactos cuando se carga la página
+document.addEventListener('DOMContentLoaded', verificarProximosContactos);
+
+
+// Cargar los afiliados y verificar notificaciones al cargar la página
+document.addEventListener('DOMContentLoaded', async () => {
+  await cargarAfiliados();
+  await verificarNotificaciones();
+});
+
