@@ -530,7 +530,7 @@ async function verificarProximosContactos() {
 // }
 
 // Llamar a la función para verificar contactos cuando se carga la página
-document.addEventListener('DOMContentLoaded', verificarProximosContactos);
+// document.addEventListener('DOMContentLoaded', verificarProximosContactos);
 
 
 // Cargar los afiliados y verificar notificaciones al cargar la página
